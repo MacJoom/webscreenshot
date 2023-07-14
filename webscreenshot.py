@@ -75,6 +75,7 @@ renderer_grp.add_argument('--no-xserver', help = '<NO_X_SERVER> (optional): if y
 
 image_grp = parser.add_argument_group('Screenshot image parameters')
 image_grp.add_argument('--window-size', help = '<WINDOW_SIZE> (optional): width and height of the screen capture (default \'1200,800\')', default = '1200,800')
+image_grp.add_argument('--scale-factor', help = '<SCALE_FACTOR> (optional, Chrome only at the moment): scale factor of the screen capture ex. 0.5 (default \'1\')', default = '1')
 image_grp.add_argument('-f', '--format', help = '<FORMAT> (optional, phantomjs only): specify an output image file format, "pdf", "png", "jpg", "jpeg", "bmp" or "ppm" (default \'png\')', choices = ['pdf', 'png', 'jpg', 'jpeg', 'bmp', 'ppm'], type=str.lower, default = 'png')
 image_grp.add_argument('-q', '--quality', help = '<QUALITY> (optional, phantomjs only): specify the output image quality, an integer between 0 and 100 (default 75)', metavar="[0-100]", choices = range(0,101), type = int, default = 75)
 image_grp.add_argument('--ajax-max-timeouts', help = '<AJAX_MAX_TIMEOUTS> (optional, phantomjs only): per AJAX request, and max URL timeout in milliseconds (default \'1400,1800\')', default = '1400,1800')
@@ -531,6 +532,7 @@ def craft_cmd(url_and_options):
                             '--incognito' if (options.renderer == 'chrome') or (options.renderer == 'chromium') else '-inprivate',
                             '-screenshot=%s' % craft_arg(output_filename),
                             '--window-size=%s' % options.window_size,
+                            '--force-device-scale-factor=%s' % options.scale_factor,
                             '%s' % craft_arg(url) ]
         cmd_parameters.append('--proxy-server=%s' % options.proxy) if options.proxy != None else None
     
